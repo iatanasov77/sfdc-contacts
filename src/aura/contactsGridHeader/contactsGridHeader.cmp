@@ -1,0 +1,11 @@
+<aura:component >
+    <lightning:layout>
+        <lightning:layoutItem>
+            <lightning:icon iconName="standard:contact" />
+        </lightning:layoutItem>
+        <lightning:layoutItem class="slds-m-left_small">
+            <h1 class="slds-page-header__title slds-p-right_x-small">Contacts Grid</h1>
+            <p class="slds-text-body_small">{!v.totalContacts} Contacts Listed by Selected Account</p>
+        </lightning:layoutItem>
+    </lightning:layout> 
+</aura:component>

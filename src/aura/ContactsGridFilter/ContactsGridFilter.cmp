@@ -1,0 +1,18 @@
+<aura:component>
+    <aura:attribute name="accounts" type="Account[]" />
+    <aura:registerEvent name="filterChanged" type="c:contactsAppFilterChanged" />
+
+    <lightning:layout>
+        <lightning:layoutItem>
+            
+            <lightning:select aura:id="select" label="Account" name="account" 
+                              onchange="{!c.fireFilterChanged}" class="slds-m-bottom_medium">
+                <option value="All" text="All"/>
+                <aura:iteration items="{!v.accounts}" var="acc">
+                    <option value="{!acc.Id}">{!acc.Name}</option>
+                </aura:iteration>
+            </lightning:select>
+            
+        </lightning:layoutItem>
+    </lightning:layout> 
+</aura:component>
