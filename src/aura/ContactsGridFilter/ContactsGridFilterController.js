@@ -6,6 +6,6 @@
         componentEvent.setParams({
             'accountId': event.getSource().get( "v.value" )
         });
-		scomponentEvent.fire();
+		componentEvent.fire();
     }
 })

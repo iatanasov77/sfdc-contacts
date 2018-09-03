@@ -8,11 +8,10 @@
     
     changeFilter: function( component, event, helper )
     {
-        var accountId		= event.getParam( "accountId" );
-        var cmpContactsGrid	= component.find( 'ContactsGrid' );
+        var accountId	= event.getParam( "accountId" );
+        var ldt			= component.find( 'contactsLDT' );
 
-        cmpContactsGrid.setData( accountId );
-        //alert( 'Layout filter event handler is calling with account ID: ' + accountId );
+        ldt.setData( accountId );
 	}
 
 })

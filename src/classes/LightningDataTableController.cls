@@ -20,6 +20,7 @@ public abstract class LightningDataTableController
         {
             fieldSetObj = createFieldset( strObjectName );
         }
+        System.debug( fieldSetObj );
         
         //To hold the table hearders 
         List<DataTableColumns> lstDataColumns = new List<DataTableColumns>();
@@ -75,9 +76,9 @@ public abstract class LightningDataTableController
         //Create and set three variables label, fieldname and type as required by the lightning:datatable
         public DataTableColumns(String label, String fieldName, String type)
         {
-            this.label = label;
-            this.fieldName = fieldName;
-            this.type = type;            
+            this.label      = label;
+            this.fieldName  = fieldName;
+            this.type       = type;
         }
     }
     
@@ -100,28 +101,25 @@ public abstract class LightningDataTableController
     {
         MetadataService.FieldSet fieldSet   = new MetadataService.FieldSet();
         
-        fieldSet.fullName       = strObjectName + '.' + strFieldSetName;
-        fieldSet.label          = strFieldSetName;
-        fieldSet.description    = 'Used by Lightning DataTable component';
+        fieldSet.fullName           = strObjectName + '.' + strFieldSetName;
+        fieldSet.label              = strFieldSetName;
+        fieldSet.description        = 'Used by Lightning DataTable component';
         
+        fieldSet.displayedFields    = new List<MetadataService.FieldSetItem>();
         for ( String field : getFieldsList( strObjectName ) )
         {
-            fieldSet.availableFields                        = new List<MetadataService.FieldSetItem>();
-            MetadataService.FieldSetItem availableField     = new MetadataService.FieldSetItem();
-	        availableField.field                            = field;
-	        //availableField.isFieldManaged                 = false;
-	        //availableField.isRequired                     = false;
+            MetadataService.FieldSetItem fieldItem = new MetadataService.FieldSetItem();
+	        fieldItem.field                        = field;
 	        
-	        fieldSet.availableFields.add( availableField );
+	        fieldSet.displayedFields.add( fieldItem );
         }
-    
-        // Create 
+
+        // Create
         list<MetadataService.Metadata> metadata = new list<MetadataService.Metadata>();
         metadata.add( fieldSet );
         List<MetadataService.SaveResult> results   = createService().createMetadata( metadata );
-        
-        // @TODO I should try to get Schema.FieldSet from the MetaDataService result
-        
+       
+        // @TODO I should try to get Schema.FieldSet from the MetaDataService result 
         return Schema.getGlobalDescribe().get( strObjectName ).getDescribe().fieldSets.getMap().get( strFieldSetName );
     }
     
@@ -134,10 +132,10 @@ public abstract class LightningDataTableController
     }
     
     public static MetadataService.MetadataPort createService()
-    { 
+    {
         MetadataService.MetadataPort service    = new MetadataService.MetadataPort();
         service.SessionHeader                   = new MetadataService.SessionHeader_element();
-        service.SessionHeader.sessionId         = UserInfo.getSessionId();
+        service.SessionHeader.sessionId         = Utils.getSessionIdFromVFPage( Page.SessionId );
         
         return service;
     }
