@@ -4,9 +4,10 @@
                   action="{!c.changeFilter}" />
     <aura:handler name="selectedRowChanged" event="c:contactsAppSelectedRowChanged"
                   action="{!c.showDetails}" />
+    <aura:handler name="deleteContact" event="c:contactsAppDeleteContact"
+                  action="{!c.deleteContact}" />
     
-    <aura:attribute name="contacts" type="Contact[]"/>
-    <aura:attribute name="accounts" type="Account[]"/>
+    <aura:attribute name="accounts" type="Account[]" />
     
     <div class="slds-grid slds-m-top--large">
         <div class="slds-col slds-p-right--large slds-size--8-of-12">

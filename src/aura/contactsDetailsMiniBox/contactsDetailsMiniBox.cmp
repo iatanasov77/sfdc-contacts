@@ -1,16 +1,25 @@
 <aura:component>
-    <aura:attribute name="contact" type="Contact" />
+    <aura:attribute name="Id" type="String" />
+    <aura:attribute name="Name" type="String" />
+    <aura:attribute name="Email" type="String" />
+    <aura:attribute name="Phone" type="String" />
 
     <aura:method name="setData" action="{!c.setData}" >
-        <aura:attribute name="accountId" type="String" />
+        <aura:attribute name="Id" type="String" />
+        <aura:attribute name="Name" type="String" />
+        <aura:attribute name="Email" type="String" />
+        <aura:attribute name="Phone" type="String" />
     </aura:method>
+    
+    <aura:registerEvent name="deleteContact" type="c:contactsAppDeleteContact" />
+    
 	<lightning:layout>
         <lightning:layoutItem>
             
             <section>
                 <ul>
                     <li class="slds-tile slds-hint-parent">
-                        <p class="tile__title slds-truncate"><h2>Anne Choi</h2></p>
+                        <p class="tile__title slds-truncate"><h2>{!v.Name}</h2></p>
                         
                         <div class="tile__detail">
                             <dl class="dl--horizontal slds-text-body--small">
@@ -18,7 +27,7 @@
                                     <p class="slds-truncate">Email:</p>
                                 </dt>
                                 <dd class="slds-tile__meta">
-                                    <p class="slds-truncate">achoi@burlingtion.com</p>
+                                    <p class="slds-truncate">{!v.Email}</p>
                                 </dd>
                             </dl>
                             <div class="tile__detail">
@@ -27,7 +36,7 @@
                                         <p class="slds-truncate">Phone:</p>
                                     </dt>
                                     <dd class="slds-tile__meta">
-                                        <p class="slds-truncate"></p>
+                                        <p class="slds-truncate">{!v.Phone}</p>
                                     </dd>
                                 </dl>
                             </div>

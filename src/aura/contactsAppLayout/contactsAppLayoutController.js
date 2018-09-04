@@ -1,24 +1,83 @@
 ({
 	doInit : function( component, event, helper )
     {
-        // Retrieve contacts during component initialization
-        helper.loadContacts( component );
         helper.loadAccounts( component );
     },
     
     changeFilter: function( component, event, helper )
     {
-        var accountId	= event.getParam( "accountId" );
-        var ldt			= component.find( 'contacts-ldt' );
-
-        ldt.setData( accountId );
+        // Init an Async Action
+    	var action	= component.get( "c.getContacts" );
+    	var params	= {
+    		"accountId"	: event.getParam( "accountId" )
+    	};
+    	action.setParams( params );
+    	
+    	// Execute the Action and get a Promise
+    	var promise	= helper.executeAction( action );
+    	
+    	// Resolve the Promise
+    	promise.then(
+			function( contacts )
+			{
+				var ldt			= component.find( 'contacts-ldt' );
+				ldt.setData( contacts );
+			},
+			function( error )
+			{
+				alert( error );
+			}
+    	);
 	},
     
     showDetails	: function ( component, event, helper )
     {
-    	var contactId	= event.getParam( 'contactId' );
-    	var detailsBox	= component.find( 'contacts-detail-mini-box' );
+    	// Init an Async Action
+    	var action	= component.get( "c.getContact" );
+    	var params	= {
+    		"contactId"	: event.getParam( 'contactId' )
+    	};
+    	action.setParams( params );
     	
-    	detailsBox.setData( contactId )
+    	// Execute the Action and get a Promise
+    	var promise	= helper.executeAction( action );
+    	
+    	// Resolve the Promise
+    	promise.then(
+			function( contact )
+			{
+				var detailsBox	= component.find( 'contacts-detail-mini-box' );
+				detailsBox.setData( contact.Id, contact.Name, contact.Email, contact.Phone );
+			},
+			function( error )
+			{
+				alert( error );
+			}
+    	);
+    },
+    
+    deleteContact	: function ( component, event, helper )
+    {
+    	// Init an Async Action
+    	var action	= component.get( "c.deleteContact" );
+    	var params	= {
+    		"contactId"	: event.getParam( 'contactId' )
+    	};
+    	action.setParams( params );
+    	
+    	// Execute the Action and get a Promise
+    	var promise	= helper.executeAction( action );
+    	
+    	// Resolve the Promise
+    	promise.then(
+			function( response )
+			{
+				alert( response.message );
+			},
+			function( error )
+			{
+				alert( error );
+			}
+    	);
     }
 })

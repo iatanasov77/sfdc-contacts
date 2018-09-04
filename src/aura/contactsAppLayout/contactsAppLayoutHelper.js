@@ -1,9 +1,48 @@
 ({
-	loadContacts : function( cmp )
+
+	// Execute an Async Action and return a Promise
+	executeAction	: function( action )
+	{
+	    return new Promise( function( resolve, reject )
+	    {
+	        action.setCallback( this, function( response )
+	        {
+	            var state = response.getState();
+	            
+	            if ( state === "SUCCESS" )
+	            {
+	                var retVal	= response.getReturnValue();
+	                resolve( retVal );
+	            }
+	            else if ( state === "ERROR" )
+	            {
+	                var errors	= response.getError();
+	                if ( errors )
+	                {
+	                    if ( errors[0] && errors[0].message )
+	                    {
+	                        reject( Error( "Error message: " + errors[0].message ) );
+	                    }
+	                }
+	                else {
+	                    reject( Error( "Unknown error" ) );
+	                }
+	            }
+	            else
+	            {
+	            	alert( 'UNKNOWN STATE!' );
+	            }
+	            
+	        });
+	        $A.enqueueAction( action );
+	    });
+	},
+	
+	loadContacts	: function( cmp )
     {
         // Load all contact data
         var action = cmp.get( "c.getContacts" );
-        action.setCallback( this, function(response ) 
+        action.setCallback( this, function( response ) 
         {
             var state	= response.getState();
             if ( state === "SUCCESS" )
@@ -37,7 +76,7 @@
         $A.enqueueAction( action );
 	},
 	
-	showStatus: function ( state )
+	showStatus: function( state )
 	{
 		// Display toast message to indicate load status
         var toastEvent	= $A.get( "e.force:showToast" );
