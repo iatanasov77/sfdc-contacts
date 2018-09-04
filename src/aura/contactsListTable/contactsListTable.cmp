@@ -1,28 +1,3 @@
 <aura:component>
-    <aura:attribute name="contacts" type="Contact[]" />
-    
-    <lightning:layout>
-        <lightning:layoutItem padding="horizontal-medium" >
-            <!-- Iterate over the list of contacts and display them -->
-            <aura:iteration var="contact" items="{!v.contacts}">
-                <!-- If you’re using a namespace, replace with myNamespace:contacts-->
-                <<lightning:card variant="Narrow" title="{!contact.Name}" 
-                        iconName="standard:contact">
-            <aura:set attribute="actions">
-                
-            </aura:set>    
-            <aura:set attribute="footer">
-                <lightning:badge label="{!contact.Email}"/>
-            </aura:set>
-            <p class="slds-p-horizontal_small">
-                {!contact.Phone}
-            </p>
-            <p class="slds-p-horizontal_small">
-                {!contact.MailingStreet}
-            </p>
-        </lightning:card>
-            </aura:iteration>
-        </lightning:layoutItem>
-    </lightning:layout>
-
+	
 </aura:component>

@@ -2,6 +2,8 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="filterChanged" event="c.contactsAppFilterChanged"
                   action="{!c.changeFilter}" />
+    <aura:handler name="selectedRowChanged" event="c:contactsAppSelectedRowChanged"
+                  action="{!c.showDetails}" />
     
     <aura:attribute name="contacts" type="Contact[]"/>
     <aura:attribute name="accounts" type="Account[]"/>
@@ -17,13 +19,16 @@
         <div class="slds-col slds-p-right--large slds-size--4-of-12">
             <!-- Mini detail box for selected contact row in the grid component -->
             <div class="slds-page-header slds-page-header_object-home">
-                <c:contactsDetailsMiniBox />
+                <c:contactsDetailsMiniBox aura:id="contacts-detail-mini-box" />
             </div>
         </div>
     </div>
     
     <div class="myapp">
-        <c:contactsLDT />
+        <c:contactsLDT aura:id="contacts-ldt" />
     </div>
+    <footer>
+    
+    </footer>
 
 </aura:component>

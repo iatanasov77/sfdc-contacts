@@ -1,3 +1,48 @@
 <aura:component>
-	
+    <aura:attribute name="contact" type="Contact" />
+
+    <aura:method name="setData" action="{!c.setData}" >
+        <aura:attribute name="accountId" type="String" />
+    </aura:method>
+	<lightning:layout>
+        <lightning:layoutItem>
+            
+            <section>
+                <ul>
+                    <li class="slds-tile slds-hint-parent">
+                        <p class="tile__title slds-truncate"><h2>Anne Choi</h2></p>
+                        
+                        <div class="tile__detail">
+                            <dl class="dl--horizontal slds-text-body--small">
+                                <dt>
+                                    <p class="slds-truncate">Email:</p>
+                                </dt>
+                                <dd class="slds-tile__meta">
+                                    <p class="slds-truncate">achoi@burlingtion.com</p>
+                                </dd>
+                            </dl>
+                            <div class="tile__detail">
+                                <dl class="dl--horizontal slds-text-body--small">
+                                    <dt>
+                                        <p class="slds-truncate">Phone:</p>
+                                    </dt>
+                                    <dd class="slds-tile__meta">
+                                        <p class="slds-truncate"></p>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            <footer>
+                <div class="slds-media slds-media--left">
+                    <lightning:button name="GoToRecord" label="Go to Record" onclick="{!c.goToRecord}" />
+                </div>
+                <div class="slds-media slds-media--right">
+                    <lightning:button name="DeleteRecord" label="Delete Record" onclick="{!c.deleteRecord}" />
+                </div>
+            </footer>
+        </lightning:layoutItem>
+    </lightning:layout>
 </aura:component>

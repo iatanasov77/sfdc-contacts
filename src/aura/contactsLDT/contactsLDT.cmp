@@ -1,4 +1,4 @@
-<aura:component implements="flexipage:availableForAllPageTypes" controller="LightningDataTableController" aura:id="contactsLDT" >
+<aura:component implements="flexipage:availableForAllPageTypes" controller="LightningDataTableController">
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     
     <aura:attribute name="data" type="Object"/>
@@ -8,6 +8,14 @@
         <aura:attribute name="accountId" type="String" />
     </aura:method>
     
-    <lightning:datatable data="{!v.data}" columns="{!v.columns}" keyField="Id" />
+    <aura:registerEvent name="selectedRowChanged" type="c:contactsAppSelectedRowChanged" />
+    
+    <lightning:datatable 
+        data            ="{!v.data}" 
+        columns         ="{!v.columns}" 
+        keyField        ="Id" 
+        onrowselection  ="{! c.fireSelectedRowChanged }"
+        maxRowSelection = "1"
+    />
     
 </aura:component>
