@@ -25,6 +25,14 @@ global class LightningDataTableType
         return fieldSet;
     }
     
+    public static List<String> fieldsList( String objectName )
+    {
+        FieldsetParams fp   = ( FieldsetParams )Type.forName( 'LightningDataTableType.' + objectName )
+                                                    .newInstance();
+     
+        return fp.fieldsList();
+    }
+    
     public interface FieldsetParams
     {
         List<String> fieldsList();
@@ -48,5 +56,39 @@ global class LightningDataTableType
         {
             return 'Contact.' + FieldSetName;
         }
+    }
+    
+    public class Filter
+    {
+        public String key;
+        public String operator;
+        public String value;
+        
+        public Filter( String k, String v, String op )
+        {
+            this.key        = k;
+            this.value      = v;
+            this.operator   = op;
+        }
+    }
+    
+    public static String queryString( 
+        String strObjectName,
+        List<String> lstFieldsToQuery
+    ) {
+        return 'SELECT Id, ' + String.join( lstFieldsToQuery, ',' ) + ' FROM ' + strObjectName;
+    }
+    
+    public static String queryString(
+        String strObjectName,
+        List<String> lstFieldsToQuery,
+        LightningDataTableType.Filter filter
+    ) {
+        if ( filter.value == Null )
+        {
+            return queryString( strObjectName, lstFieldsToQuery );
+        }
+        
+        return queryString( strObjectName, lstFieldsToQuery ) + ' WHERE ' + filter.key + filter.operator + '\'' + filter.value + '\'';
     }
 }

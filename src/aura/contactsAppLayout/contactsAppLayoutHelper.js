@@ -38,26 +38,28 @@
 	    });
 	},
 	
-	loadContacts	: function( cmp )
-    {
-        // Load all contact data
-        var action = cmp.get( "c.getContacts" );
-        action.setCallback( this, function( response ) 
-        {
-            var state	= response.getState();
-            if ( state === "SUCCESS" )
-            {
-                var today	= new Date();
-                
-                cmp.set( "v.currentYear", today.getFullYear() );
-                cmp.set( "v.contacts", response.getReturnValue() );
-                cmp.set( "v.contactList", response.getReturnValue() );
-                
-                //this.showStatus( status );
-                //this.updateTotal( cmp );
-            }
+	initDataTable : function( component )
+	{
+		var action = component.get( "c.getRecords" );
+    	action.setParams({
+            strObjectName	: 'Contact'
         });
-        $A.enqueueAction( action );
+    	
+    	// Execute the Action and get a Promise
+    	var promise	= executeAction( action );
+    	
+    	// Resolve the Promise
+    	promise.then(
+			function( responseData )
+			{
+				cmp.set( 'v.columns', responseData.lstDataTableColumns );
+				cmp.set( 'v.data', responseData.lstDataTableData );
+			},
+			function( error )
+			{
+				alert( error );
+			}
+    	);
     },
     
     loadAccounts : function( cmp )

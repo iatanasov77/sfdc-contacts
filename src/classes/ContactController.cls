@@ -4,9 +4,12 @@ public class ContactController extends LightningDataTableController
 	@AuraEnabled
     public static List<Contact> getContacts( String accountId )
     {
-        List<Contact> contacts	= [SELECT Id, Name, MailingStreet, Phone, Email, LeadSource FROM Contact WHERE accountId = :accountId];
+        List<String> fieldsList                 = LightningDataTableType.fieldsList( 'Contact' );
+        LightningDataTableType.Filter filter    = new LightningDataTableType.Filter( 'accountId', accountId, '=' );
+        
+        String query            = LightningDataTableType.queryString( 'Contact', fieldsList, filter );
+        List<Contact> contacts	= ( List<Contact> ) Database.query( query );
 
-        //Add isAccessible() check
         return contacts;
     }
     
@@ -42,8 +45,8 @@ public class ContactController extends LightningDataTableController
         Contact contact = [SELECT Id FROM Contact WHERE Id = :contactId];
 
         try {
-            Database.DeleteResult res    = Database.delete( contact );
-            response    = new DeleteResponse( false, 'SUCCESS!' );
+            Database.DeleteResult res   = Database.delete( contact );
+            response                    = new DeleteResponse( false, 'SUCCESS!' );
         }
         catch ( DmlException e )
         {

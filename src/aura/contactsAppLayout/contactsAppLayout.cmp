@@ -7,9 +7,13 @@
     <aura:handler name="deleteContact" event="c:contactsAppDeleteContact"
                   action="{!c.deleteContact}" />
                   
-    <aura:handler event="force:refreshView" action="{!c.refresh}"/>
+    <aura:handler event="force:refreshView" action="{!c.changeFilter}"/>
     
     <aura:attribute name="accounts" type="Account[]" />
+    
+    <aura:attribute name="contacts" type="Contact[]" />
+    <aura:attribute name="columns" type="List" />
+    <aura:attribute name="fields" type="String[]" />
     
     <div class="slds-grid slds-m-top--large">
         <div class="slds-col slds-p-right--large slds-size--8-of-12">
@@ -28,7 +32,11 @@
     </div>
     
     <div class="myapp">
-        <c:contactsLDT aura:id="contacts-ldt" />
+        <c:contactsLDT
+            aura:id="contacts-ldt"
+            data            ="{!v.contacts}"
+            columns         ="{!v.columns}"
+        />
     </div>
     <footer>
     

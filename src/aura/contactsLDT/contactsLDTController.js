@@ -1,9 +1,4 @@
 ({
-	doInit					: function ( component, event, helper )
-	{
-		helper.getData( component, event );
-    },
-    
     fireSelectedRowChanged	: function( component, event, helper )
     {
         var selectedRows	= event.getParam( 'selectedRows' );
@@ -15,10 +10,17 @@
 		cmpEvent.fire();
     },
     
-    setData					: function( component, event )
+    setData		: function( component, event )
+    {
+    	var args	= event.getParam( 'arguments' );
+    	console.log( args.contacts );
+    	component.set( 'v.data', args.contacts );
+    },
+    
+    setColumns	: function( component, event )
     {
     	var args	= event.getParam( 'arguments' );
     	
-    	component.set( 'v.contacts', args.contacts );
+    	component.set( 'v.columns', args.columns );
     }
 })

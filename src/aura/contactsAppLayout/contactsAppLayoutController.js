@@ -2,42 +2,14 @@
 	doInit 			: function( component, event, helper )
     {
         helper.loadAccounts( component );
+        helper.initDataTable( component );
     },
-    
-    setData			: function( component, event, helper )
-    {
-        // Init an Async Action
-    	var action	= component.get( "c.getContacts" );
-    	var params	= {
-    		"accountId"	: event.getParam( "accountId" )
-    	};
-    	action.setParams( params );
-    	
-    	// Execute the Action and get a Promise
-    	var promise	= helper.executeAction( action );
-    	
-    	// Resolve the Promise
-    	promise.then(
-			function( contacts )
-			{
-				var ldt			= component.find( 'contacts-ldt' );
-				ldt.setData( contacts );
-			},
-			function( error )
-			{
-				alert( error );
-			}
-    	);
-	},
     
     changeFilter	: function( component, event, helper )
     {
         // Init an Async Action
     	var action	= component.get( "c.getContacts" );
-    	var params	= {
-    		"accountId"	: event.getParam( "accountId" )
-    	};
-    	action.setParams( params );
+    	action.setParams( event.getParams() );
     	
     	// Execute the Action and get a Promise
     	var promise	= helper.executeAction( action );
@@ -109,15 +81,5 @@
 				alert( error );
 			}
     	);
-    },
-    
-    refresh		: function ( component, event, helper )
-    {
-    	var ldt	= component.find( 'contacts-ldt' );
-    	ldt.destroy();
-    	ldt.superRender();
-    	
-    	console.log( ldt );
-    	alert( 'REFRESH' );
     }
 })

@@ -66,7 +66,7 @@ public virtual class LightningDataTableController
         //Form an SOQL to fetch the data
         if( ! lstFieldsToQuery.isEmpty() )
         {
-            String query = 'SELECT Id, ' + String.join( lstFieldsToQuery, ',' ) + ' FROM ' + strObjectName;
+            String query                = LightningDataTableType.queryString( strObjectName, lstFieldsToQuery );
             System.debug( query );
             response.lstDataTableData   = Database.query( query );
         }
