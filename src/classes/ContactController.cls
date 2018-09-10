@@ -1,16 +1,6 @@
-public with sharing class ContactController
+public with sharing class ContactController extends LightningDataTableController
 {
-    class DeleteResponse
-    {
-        Boolean error;
-        String message;
-        public DeleteResponse( Boolean err, String msg )
-        {
-            this.error      = err;
-            this.message    = msg;
-        }
-    }
-
+  
 	@AuraEnabled
     public static List<Contact> getContacts( String accountId )
     {
@@ -37,20 +27,35 @@ public with sharing class ContactController
     }
     
     @AuraEnabled
-    public static String deleteContact( String contactId )
-    {System.debug( 'Delete Contact: ' + contactId );
-        //Contact contact = [SELECT Id FROM Contact WHERE Id = :contactId];
+    public static String removeContact( String contactId )
+    {
+        DeleteResponse response;
+        
+        Id userId                   = UserInfo.getUserId();
+        List<UserRecordAccess> ura  = [SELECT HasDeleteAccess, RecordId FROM UserRecordAccess 
+                                        WHERE RecordId = :contactId AND UserId = :userId];
+        if ( ! ura[0].HasDeleteAccess )
+        {
+            response    = new DeleteResponse( true, 'You have not permission to delete this record!' );
+        }
+        
+        Contact contact = [SELECT Id FROM Contact WHERE Id = :contactId];
 
         try {
-            return 'SUCCESS';
-            //Database.delete( contact );
+            Database.DeleteResult res    = Database.delete( contact );
+            response    = new DeleteResponse( false, 'SUCCESS!' );
         }
         catch ( DmlException e )
         {
-            
-            //return new DeleteResponse( true, e.getMessage() );
+            response    = new DeleteResponse( true, e.getMessage() );
         }
-        return 'SUCCESS';
-        //return new DeleteResponse( false, 'SUCCESS!' );
+        
+        return JSON.serialize( response );
+    }
+    
+    @AuraEnabled
+    public static String testRemoveContact( String contactId )
+    {
+        return JSON.serialize( new DeleteResponse( true, 'You have not permission to delete this record!' ) );
     }
 }

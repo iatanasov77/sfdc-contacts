@@ -6,6 +6,8 @@
                   action="{!c.showDetails}" />
     <aura:handler name="deleteContact" event="c:contactsAppDeleteContact"
                   action="{!c.deleteContact}" />
+                  
+    <aura:handler event="force:refreshView" action="{!c.refresh}"/>
     
     <aura:attribute name="accounts" type="Account[]" />
     

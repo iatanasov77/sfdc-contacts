@@ -9,6 +9,12 @@
     	component.set( 'v.Name', args.Name );
     	component.set( 'v.Email', args.Email );
     	component.set( 'v.Phone', args.Phone );
+    	
+    	// Enable buttons
+    	var btnGo	= component.find( 'btn-go' );
+    	btnGo.set( 'v.disabled', false );
+    	var btnDel	= component.find( 'btn-del' );
+    	btnDel.set( 'v.disabled', false );
     },
     
     // Action: Go to Record

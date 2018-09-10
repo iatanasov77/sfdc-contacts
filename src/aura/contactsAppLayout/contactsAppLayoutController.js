@@ -1,10 +1,10 @@
 ({
-	doInit : function( component, event, helper )
+	doInit 			: function( component, event, helper )
     {
         helper.loadAccounts( component );
     },
     
-    changeFilter: function( component, event, helper )
+    setData			: function( component, event, helper )
     {
         // Init an Async Action
     	var action	= component.get( "c.getContacts" );
@@ -30,7 +30,33 @@
     	);
 	},
     
-    showDetails	: function ( component, event, helper )
+    changeFilter	: function( component, event, helper )
+    {
+        // Init an Async Action
+    	var action	= component.get( "c.getContacts" );
+    	var params	= {
+    		"accountId"	: event.getParam( "accountId" )
+    	};
+    	action.setParams( params );
+    	
+    	// Execute the Action and get a Promise
+    	var promise	= helper.executeAction( action );
+    	
+    	// Resolve the Promise
+    	promise.then(
+			function( contacts )
+			{
+				var ldt			= component.find( 'contacts-ldt' );
+				ldt.setData( contacts );
+			},
+			function( error )
+			{
+				alert( error );
+			}
+    	);
+	},
+    
+    showDetails		: function ( component, event, helper )
     {
     	// Init an Async Action
     	var action	= component.get( "c.getContact" );
@@ -59,7 +85,8 @@
     deleteContact	: function ( component, event, helper )
     {
     	// Init an Async Action
-    	var action	= component.get( "c.deleteContact" );
+    	var action	= component.get( "c.removeContact" );
+    	
     	var params	= {
     		"contactId"	: event.getParam( 'contactId' )
     	};
@@ -72,12 +99,25 @@
     	promise.then(
 			function( response )
 			{
-				alert( response.message );
+				var res	= JSON.parse( response );
+				
+				alert( res.message );
+				$A.get( 'e.force:refreshView' ).fire();
 			},
 			function( error )
 			{
 				alert( error );
 			}
     	);
+    },
+    
+    refresh		: function ( component, event, helper )
+    {
+    	var ldt	= component.find( 'contacts-ldt' );
+    	ldt.destroy();
+    	ldt.superRender();
+    	
+    	console.log( ldt );
+    	alert( 'REFRESH' );
     }
 })

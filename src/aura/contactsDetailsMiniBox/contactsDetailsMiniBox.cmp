@@ -46,10 +46,10 @@
             </section>
             <footer>
                 <div class="slds-media slds-media--left">
-                    <lightning:button name="GoToRecord" label="Go to Record" onclick="{!c.goToRecord}" />
+                    <lightning:button name="GoToRecord" label="Go to Record" onclick="{!c.goToRecord}" disabled="true" aura:id="btn-go" />
                 </div>
                 <div class="slds-media slds-media--right">
-                    <lightning:button name="DeleteRecord" label="Delete Record" onclick="{!c.deleteRecord}" />
+                    <lightning:button name="DeleteRecord" label="Delete Record" onclick="{!c.deleteRecord}" disabled="true" aura:id="btn-del" />
                 </div>
             </footer>
         </lightning:layoutItem>
