@@ -9,7 +9,12 @@
     {
         // Init an Async Action
     	var action	= component.get( "c.getContacts" );
-    	action.setParams( event.getParams() );
+    	var params	= event.getParams();
+    	if ( params.accountId === 'All' )
+    	{
+    		params.accountId	= null;
+    	}
+    	action.setParams( params );
     	
     	// Execute the Action and get a Promise
     	var promise	= helper.executeAction( action );

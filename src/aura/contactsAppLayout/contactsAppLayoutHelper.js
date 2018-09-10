@@ -38,22 +38,19 @@
 	    });
 	},
 	
-	initDataTable : function( component )
+	initDataTable : function( cmp )
 	{
-		var action = component.get( "c.getRecords" );
-    	action.setParams({
-            strObjectName	: 'Contact'
-        });
+		var action = cmp.get( "c.initDataTable" );
     	
     	// Execute the Action and get a Promise
-    	var promise	= executeAction( action );
+    	var promise	= this.executeAction( action );
     	
     	// Resolve the Promise
     	promise.then(
 			function( responseData )
 			{
 				cmp.set( 'v.columns', responseData.lstDataTableColumns );
-				cmp.set( 'v.data', responseData.lstDataTableData );
+				cmp.set( 'v.contacts', responseData.lstDataTableData );
 			},
 			function( error )
 			{
@@ -66,16 +63,19 @@
     {
     	// Load all contact data
         var action = cmp.get( "c.getAccounts" );
-        action.setCallback( this, function( response )
-        {
-            var state	= response.getState();
-            if ( state === "SUCCESS" )
-            {
-                cmp.set( "v.accounts", response.getReturnValue() );
-            }
-
-        });
-        $A.enqueueAction( action );
+        var promise	= this.executeAction( action );
+    	
+    	// Resolve the Promise
+    	promise.then(
+			function( responseData )
+			{
+				cmp.set( "v.accounts", responseData );
+			},
+			function( error )
+			{
+				alert( error );
+			}
+    	);
 	},
 	
 	showStatus: function( state )

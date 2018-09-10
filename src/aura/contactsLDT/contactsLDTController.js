@@ -5,7 +5,7 @@
         var cmpEvent		= component.getEvent( "selectedRowChanged" );
         
         cmpEvent.setParams({
-            'contactId': selectedRows[0].Id
+            'contactId': selectedRows[0] != undefined ? selectedRows[0].Id : null
         });
 		cmpEvent.fire();
     },

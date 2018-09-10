@@ -31,4 +31,38 @@ public with sharing class LightningDataTableResponse
         lstDataTableColumns = new List<Column>();
         lstDataTableData    = new List<sObject>();
     }
+    
+    public static LightningDataTableResponse createResponse( String strObjectName, Schema.FieldSet fieldSet )
+    {
+        
+        List<String> lstFieldsToQuery       = new List<String>();
+        LightningDataTableResponse response = new LightningDataTableResponse();
+        
+        for( Schema.FieldSetMember eachFieldSetMember : fieldSet.getFields() )
+        {
+            String dataType = String.valueOf( eachFieldSetMember.getType() ).toLowerCase();
+            if( dataType == 'datetime' )
+            {
+                dataType    = 'date';
+            }
+            LightningDataTableResponse.Column column    = new LightningDataTableResponse.Column( 
+                                                            String.valueOf( eachFieldSetMember.getLabel() ),
+                                                            String.valueOf( eachFieldSetMember.getFieldPath() ), 
+                                                            String.valueOf( eachFieldSetMember.getType()).toLowerCase()
+                                                        );
+            response.lstDataTableColumns.add( column );
+            
+            lstFieldsToQuery.add( String.valueOf( eachFieldSetMember.getFieldPath() ) );
+        }
+        
+        //Form an SOQL to fetch the data
+        if( ! lstFieldsToQuery.isEmpty() )
+        {
+            String query                = LightningDataTableType.queryString( strObjectName, lstFieldsToQuery );
+            System.debug( query );
+            response.lstDataTableData   = Database.query( query );
+        }
+        
+        return response;
+    }
 }

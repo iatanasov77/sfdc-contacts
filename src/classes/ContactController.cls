@@ -1,6 +1,17 @@
-public class ContactController extends LightningDataTableController
+public class ContactController
 {
-  
+
+   @AuraEnabled
+    public static LightningDataTableResponse initDataTable()
+    {   
+        String strObjectName        = 'Contact';
+        
+        //Get the DataTable FieldSet for ObjectType Name
+        Schema.FieldSet fieldSet    = MetadataServiceFactory.getFieldset( strObjectName );
+        
+        return LightningDataTableResponse.createResponse( strObjectName, fieldSet );
+    }
+    
 	@AuraEnabled
     public static List<Contact> getContacts( String accountId )
     {
@@ -54,11 +65,5 @@ public class ContactController extends LightningDataTableController
         }
         
         return JSON.serialize( response );
-    }
-    
-    @AuraEnabled
-    public static String testRemoveContact( String contactId )
-    {
-        return JSON.serialize( new DeleteResponse( true, 'You have not permission to delete this record!' ) );
     }
 }

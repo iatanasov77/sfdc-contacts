@@ -44,8 +44,11 @@
     // Action: Delete Record
     deleteRecord	: function( component, event, helper )
     {
-    	component.getEvent( "deleteContact" ).setParams({
-            'contactId': component.get( "v.Id" )
-        }).fire();
+    	if ( prompt( 'Realy, do you want to delete this contact?' ) )
+    	{
+    		component.getEvent( "deleteContact" ).setParams({
+    			'contactId': component.get( "v.Id" )
+    		}).fire();
+    	}
     }
 })
