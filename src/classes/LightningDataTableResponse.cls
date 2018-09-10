@@ -1,4 +1,4 @@
-public with sharing class LightnngDataTableResponse
+public with sharing class LightningDataTableResponse
 {
     public class Column
     {
@@ -19,14 +19,14 @@ public with sharing class LightnngDataTableResponse
     }
     
     @AuraEnabled
-    public List<DataTableColumns> lstDataTableColumns {get;set;}
+    public List<Column> lstDataTableColumns {get;set;}
     @AuraEnabled
     public List<sObject> lstDataTableData {get;set;}
     
     /**
      *  @brief  Main constructor
      */
-    public LightnngDataTableResponse()
+    public LightningDataTableResponse()
     {
         lstDataTableColumns = new List<Column>();
         lstDataTableData    = new List<sObject>();

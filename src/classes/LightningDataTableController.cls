@@ -2,7 +2,7 @@
  * @brief   Get data records for Lightning:DataTable component
  * @author  ivan.atanasov@accenture.com
  */
-public abstract class LightningDataTableController
+public virtual class LightningDataTableController
 {
     /**
      *  Method Name : getRecords
@@ -14,7 +14,7 @@ public abstract class LightningDataTableController
         //Get the DataTable FieldSet for ObjectType Name
         Schema.FieldSet fieldSet    = getFieldset( strObjectName );
         
-        return createResponse( fieldSet );
+        return createResponse( strObjectName, fieldSet );
     }
     
     private static Schema.FieldSet getFieldset( String strObjectName )
@@ -40,11 +40,11 @@ public abstract class LightningDataTableController
         return fieldSetObj;
     }
 
-    private static LightningDataTableResponse createResponse( Schema.FieldSet fieldSet )
+    private static LightningDataTableResponse createResponse( String strObjectName, Schema.FieldSet fieldSet )
     {
         
         List<String> lstFieldsToQuery       = new List<String>();
-        LightningDataTableResponse response = new DataTableResponse();
+        LightningDataTableResponse response = new LightningDataTableResponse();
         
         for( Schema.FieldSetMember eachFieldSetMember : fieldSet.getFields() )
         {

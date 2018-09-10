@@ -1,4 +1,4 @@
-public with sharing class ContactController extends LightningDataTableController
+public class ContactController extends LightningDataTableController
 {
   
 	@AuraEnabled
